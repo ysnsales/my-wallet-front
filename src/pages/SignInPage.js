@@ -1,32 +1,50 @@
-import styled from "styled-components"
 import { Link } from "react-router-dom"
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import styled from "styled-components"
+import axios from "axios";
 import MyWalletLogo from "../components/MyWalletLogo"
 
 export default function SignInPage() {
 
   const [formData, setFormData] = useState({ email: '', password: '' })
-
+  const navigate = useNavigate();
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const promise = axios.post("http://localhost:5000/sign-in", { ...formData });
+    promise.then((response) => {
+      navigate("/cadastro");
+    });
+    promise.catch(() => {
+      alert('Erro, tente novamente');
+    });
+  }
+
   return (
     <SingInContainer>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <MyWalletLogo />
         <Input 
         placeholder="E-mail" 
         type="email" 
+        name="email"
         onChange={handleChange}
+        value={formData.email}
         required/>
 
         <Input 
         placeholder="Senha" 
         type="password" 
+        name="password"
         autocomplete="new-password" 
         onChange={handleChange}
+        value={formData.password}
         required/>
 
         <Button type="submit">Entrar</Button>
