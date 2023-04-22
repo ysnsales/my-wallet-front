@@ -17,16 +17,22 @@ export default function SignUpPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(formData)
+    if (formData.password != formData.confirmPassword) return alert("As senhas precisam ser as mesmas!")
 
-    const promise = axios.post("http://localhost:5000/sign-up", { ...formData });
+    const {confirmPassword, ...sendData} = formData;
+    console.log(sendData)
+
+    const promise = axios.post("http://localhost:5000/sign-up", { ...sendData });
     promise.then((response) => {
       console.log(response.data);
       navigate("/");
     });
     promise.catch((error) => {
-      console.log(error.data)
-          alert('Erro, tente novamente');
+    if (error.response.status === 422) {
+        alert("O cadastro falhou. Verifique se os dados foram preenchidos corretamente! (A senha precisa ter no mínimo 3 caracteres)")
+    }else if (error.response.status === 409) {
+        alert("Email já utilizado")
+    } 
     });
   }
 
@@ -48,6 +54,8 @@ export default function SignUpPage() {
         name="email" 
         onChange={handleChange}
         value={formData.email}
+        pattern="^\w+([.-]?\w+)@\w+([.-]?\w+)(\.\w{2,})+$"
+        title="Precisa ser um email valido. Exemplo (nome@dominio.com)"
         required/>
 
         <Input 

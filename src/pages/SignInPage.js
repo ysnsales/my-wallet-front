@@ -19,10 +19,17 @@ export default function SignInPage() {
 
     const promise = axios.post("http://localhost:5000/sign-in", { ...formData });
     promise.then((response) => {
-      navigate("/cadastro");
+      navigate("/home");
     });
-    promise.catch(() => {
-      alert('Erro, tente novamente');
+    promise.catch((error) => {
+      if ( error.response.status === 404) {
+        alert('Email não cadastrado')
+      }else if (error.response.status === 401) {
+        alert('Senha incorreta')
+      }else if (error.response.status === 422) {
+        alert('Verifique se os dados foram preenchidos corretamente')
+      }
+     
     });
   }
 
