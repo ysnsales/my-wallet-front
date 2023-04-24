@@ -1,8 +1,28 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { useState, useEffect, useContext } from "react";
+import api from "../services/api";
+import { UserContext } from "../contexts/UserContext";
 
 export default function HomePage() {
+
+  const {user} = useContext(UserContext)
+  const [transactions, setTransactions] = useState([]);
+  console.log(transactions)
+
+  useEffect(loadTransactions, []);
+
+  function loadTransactions(){
+    const promise = api.getTransaction(user.token);
+    promise.then((response) => {
+      console.log(response.data)
+      setTransactions(response.data);
+    })
+  }
+
+  useEffect(loadTransactions, []); 
+
   return (
     <HomeContainer>
       <Header>
@@ -12,21 +32,16 @@ export default function HomePage() {
 
       <TransactionsContainer>
         <ul>
+        {transactions.map (transaction => (<>
           <ListItemContainer>
             <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
+              <span>{transaction.date}</span>
+              <span>{transaction.description}</span>
             </div>
-            <Value color={"negativo"}>120,00</Value>
+            <Value color={transaction.tipo}>{transaction.value}</Value>
           </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          </>
+              ))}
         </ul>
 
         <article>
@@ -105,7 +120,7 @@ const ButtonsContainer = styled.section`
 const Value = styled.div`
   font-size: 16px;
   text-align: right;
-  color: ${(props) => (props.color === "positivo" ? "green" : "red")};
+  color: ${(props) => (props.color === "moneyIn" ? "green" : "red")};
 `
 const ListItemContainer = styled.li`
   display: flex;

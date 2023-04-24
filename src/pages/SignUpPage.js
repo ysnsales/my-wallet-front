@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styled from "styled-components"
 import axios from "axios";
-import MyWalletLogo from "../components/MyWalletLogo"
+import MyWalletLogo from "../components/MyWalletLogo";
+import api from "../services/api";
 
 export default function SignUpPage() {
 
@@ -17,12 +18,12 @@ export default function SignUpPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (formData.password != formData.confirmPassword) return alert("As senhas precisam ser as mesmas!")
+    if (formData.password !== formData.confirmPassword) return alert("As senhas precisam ser as mesmas!")
 
     const {confirmPassword, ...sendData} = formData;
     console.log(sendData)
 
-    const promise = axios.post("http://localhost:5000/sign-up", { ...sendData });
+    const promise = api.signUp({ ...sendData });
     promise.then((response) => {
       console.log(response.data);
       navigate("/");

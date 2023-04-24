@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components"
 import axios from "axios";
 import MyWalletLogo from "../components/MyWalletLogo"
+import { UserContext } from "../contexts/UserContext";
+import api from "../services/api";
 
 export default function SignInPage() {
-
+  const {user, setUser} = useContext(UserContext)
   const [formData, setFormData] = useState({ email: '', password: '' })
   const navigate = useNavigate();
 
@@ -17,10 +19,14 @@ export default function SignInPage() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const promise = axios.post("http://localhost:5000/sign-in", { ...formData });
+    const promise = api.signIn({ ...formData });
     promise.then((response) => {
+      console.log(response.data)
+      const {idUser, token} = response.data;
+      setUser({idUser, token})
       navigate("/home");
     });
+
     promise.catch((error) => {
       if ( error.response.status === 404) {
         alert('Email não cadastrado')
