@@ -16,9 +16,9 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignInPage />} />
-          <Route path="/cadastro" element={<SignUpPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/transactions/:type" element={<TransactionsPage />} />
         </Routes>
       </BrowserRouter>
       </UserContext.Provider>

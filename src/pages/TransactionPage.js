@@ -1,6 +1,13 @@
 import styled from "styled-components"
+import { useParams } from "react-router-dom";
 
 export default function TransactionsPage() {
+ 
+    const { type } = useParams();
+    // Render the appropriate content based on the tipo value
+    console.log(type)
+
+
   return (
     <TransactionsContainer>
       <h1>Nova TRANSAÇÃO</h1>

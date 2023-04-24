@@ -26,8 +26,9 @@ function getTransaction(token){
 
 }
 
-function createTransaction(){
-
+function createTransaction(token, body){
+    const promise = axios.get(`${BASE_URL}/transactions`, body, createConfig(token));
+    return promise;
 }
 
 const api = {

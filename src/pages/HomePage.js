@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { UserContext } from "../contexts/UserContext";
 
@@ -9,6 +10,8 @@ export default function HomePage() {
 
   const {user} = useContext(UserContext)
   const [transactions, setTransactions] = useState([]);
+  const [moneyIn,setMoneyIn] = useState([])
+  const navigate = useNavigate();
   console.log(transactions)
 
   useEffect(loadTransactions, []);
@@ -19,9 +22,14 @@ export default function HomePage() {
       console.log(response.data)
       setTransactions(response.data);
     })
+  };
+
+  function loadNavigate(type){
+    navigate(`/transactions/${type}`)
+
   }
 
-  useEffect(loadTransactions, []); 
+  
 
   return (
     <HomeContainer>
@@ -38,7 +46,7 @@ export default function HomePage() {
               <span>{transaction.date}</span>
               <span>{transaction.description}</span>
             </div>
-            <Value color={transaction.tipo}>{transaction.value}</Value>
+            <Value color={transaction.type}>{transaction.value}</Value>
           </ListItemContainer>
           </>
               ))}
@@ -52,11 +60,11 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button>
+        <button onClick={() => loadNavigate("moneyIn")}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button>
+        <button onClick={()=> loadNavigate("moneyOut")}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>

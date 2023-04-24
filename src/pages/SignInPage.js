@@ -63,7 +63,7 @@ export default function SignInPage() {
         <Button type="submit">Entrar</Button>
       </Form>
 
-      <Link to="/cadastro">
+      <Link to="/sign-up">
         Primeira vez? Cadastre-se!
       </Link>
     </SingInContainer>
