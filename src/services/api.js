@@ -23,11 +23,10 @@ function createConfig(token){
 function getTransaction(token){
     const promise = axios.get(`${BASE_URL}/home`, createConfig(token));
     return promise;
-
 }
 
-function createTransaction(token, body){
-    const promise = axios.get(`${BASE_URL}/transactions`, body, createConfig(token));
+function createTransaction(token, body, type){
+    const promise = axios.post(`${BASE_URL}/transactions/${type}`, body, createConfig(token));
     return promise;
 }
 

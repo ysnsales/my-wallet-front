@@ -29,8 +29,6 @@ export default function HomePage() {
 
   }
 
-  
-
   return (
     <HomeContainer>
       <Header>
@@ -41,12 +39,12 @@ export default function HomePage() {
       <TransactionsContainer>
         <ul>
         {transactions.map (transaction => (<>
-          <ListItemContainer>
+          <ListItemContainer key={transaction.id}>
             <div>
               <span>{transaction.date}</span>
               <span>{transaction.description}</span>
             </div>
-            <Value color={transaction.type}>{transaction.value}</Value>
+            <Value color={transaction.type}>{Number(transaction.value).toFixed(2)}</Value>
           </ListItemContainer>
           </>
               ))}

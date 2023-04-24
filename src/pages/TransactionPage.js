@@ -1,21 +1,63 @@
-import styled from "styled-components"
-import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useState } from "react";
+import { UserContext } from "../contexts/UserContext";
+import api from "../services/api";
 
 export default function TransactionsPage() {
- 
-    const { type } = useParams();
-    // Render the appropriate content based on the tipo value
-    console.log(type)
 
+  const navigate = useNavigate();
+  const {user} = useContext(UserContext);
+  const { type } = useParams();
+  const [formData, setFormData] = useState({description:'', value:''})
+
+
+  function handleChange(e) {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  function handleSubmit(e){
+    e.preventDefault();
+
+    const valueNumber = Number(parseFloat(formData.value.replace(',', '.')).toFixed(2));
+
+
+    const body = {...formData, value: valueNumber};
+    const promise = api.createTransaction(user.token, body, type);
+    console.log(body)
+
+    promise.then((response) => {
+      console.log(response.data);
+      navigate("/home");
+    });
+
+    promise.catch((err) => {
+      console.log(err.response.data.message);
+    });
+
+  }
 
   return (
     <TransactionsContainer>
       <h1>Nova TRANSAÇÃO</h1>
-      <form>
-        <input placeholder="Valor" type="text"/>
-        <input placeholder="Descrição" type="text" />
-        <button>Salvar TRANSAÇÃO</button>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Input 
+        placeholder="Valor" 
+        type="text"
+        name="value"
+        onChange={handleChange}
+        value={formData.value}
+        required/>
+
+        <Input 
+        placeholder="Descrição" 
+        type="text"
+        name="description"
+        onChange={handleChange}
+        value={formData.description}
+        required />
+        <Button type="submit">Salvar TRANSAÇÃO</Button>
+      </Form>
     </TransactionsContainer>
   )
 }
@@ -32,3 +74,6 @@ const TransactionsContainer = styled.main`
     margin-bottom: 40px;
   }
 `
+const Form = styled.form``
+const Button = styled.button``
+const Input = styled.input``

@@ -8,8 +8,8 @@ import { UserContext } from "../contexts/UserContext";
 import api from "../services/api";
 
 export default function SignInPage() {
-  const {user, setUser} = useContext(UserContext)
-  const [formData, setFormData] = useState({ email: '', password: '' })
+  const {user, setUser} = useContext(UserContext);
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -21,7 +21,7 @@ export default function SignInPage() {
 
     const promise = api.signIn({ ...formData });
     promise.then((response) => {
-      console.log(response.data)
+      console.log(response.data);
       const {idUser, token} = response.data;
       setUser({idUser, token})
       navigate("/home");
