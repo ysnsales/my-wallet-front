@@ -22,9 +22,9 @@ export default function SignInPage() {
     const promise = api.signIn({ ...formData });
     promise.then((response) => {
       console.log(response.data);
-      const {idUser, token} = response.data;
-      setUser({idUser, token})
-      navigate("/home");
+      const {idUser, token, name} = response.data;
+      setUser({idUser, token, name})
+      navigate("/home", {state:{name}});
     });
 
     promise.catch((error) => {

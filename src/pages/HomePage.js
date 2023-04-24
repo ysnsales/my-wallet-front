@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import api from "../services/api";
 import { UserContext } from "../contexts/UserContext";
 
@@ -12,7 +12,9 @@ export default function HomePage() {
   const [transactions, setTransactions] = useState([]);
   const [moneyIn,setMoneyIn] = useState([])
   const navigate = useNavigate();
-  console.log(transactions)
+  const location = useLocation();
+  const { name } = location.state || {}
+
 
   useEffect(loadTransactions, []);
 
@@ -28,11 +30,18 @@ export default function HomePage() {
     navigate(`/transactions/${type}`)
 
   }
+  const positiveValues = transactions.filter(transaction => transaction.type === "moneyIn");
+  const negativeValues = transactions.filter(transaction => transaction.type === "moneyOut");
+  
+  const positiveSum = positiveValues.reduce((total, transaction) => total + transaction.value, 0);
+  const negativeSum = negativeValues.reduce((total, transaction) => total + transaction.value, 0);
+  
+  const result = positiveSum - negativeSum;
 
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {name}</h1>
         <BiExit />
       </Header>
 
@@ -52,7 +61,7 @@ export default function HomePage() {
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={result >= 0 ? "moneyIn" : "moneyOut"}>{Number(result).toFixed(2)}</Value>
         </article>
       </TransactionsContainer>
 
