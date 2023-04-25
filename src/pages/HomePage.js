@@ -49,8 +49,11 @@ export default function HomePage() {
       </Header>
 
       <TransactionsContainer>
-        <ul>
-        {transactions.map(transaction => (
+        {transactions.length === 0 ? <>
+        <span>Não há registros de entrada ou saída</span>
+        </> : <>
+         <ul>
+        {transactions.slice().reverse().map(transaction => (
           <ListItemContainer key={transaction._id}>
             <div>
               <span>{transaction.date}</span>
@@ -61,11 +64,11 @@ export default function HomePage() {
           
               ))}
         </ul>
+                <article>
+                <strong>Saldo</strong>
+                <Value color={result >= 0 ? "moneyIn" : "moneyOut"}>{Number(result).toFixed(2)}</Value>
+              </article> </>}
 
-        <article>
-          <strong>Saldo</strong>
-          <Value color={result >= 0 ? "moneyIn" : "moneyOut"}>{Number(result).toFixed(2)}</Value>
-        </article>
       </TransactionsContainer>
 
 
@@ -114,6 +117,12 @@ const TransactionsContainer = styled.article`
       font-weight: 700;
       text-transform: uppercase;
     }
+  }
+  span{
+    color: gray;
+    font-size: 20px;
+    align-self: center;
+    margin-top: 10%;
   }
 `
 const ButtonsContainer = styled.section`

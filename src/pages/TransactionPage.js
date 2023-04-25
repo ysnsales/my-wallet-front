@@ -9,6 +9,7 @@ export default function TransactionsPage() {
   const navigate = useNavigate();
   const {user} = useContext(UserContext);
   const { type } = useParams();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({description:'', value:''})
 
 
@@ -18,6 +19,7 @@ export default function TransactionsPage() {
 
   function handleSubmit(e){
     e.preventDefault();
+    setLoading(true);
 
     const valueNumber = Number(parseFloat(formData.value.replace(',', '.')).toFixed(2));
 
@@ -28,11 +30,13 @@ export default function TransactionsPage() {
 
     promise.then((response) => {
       console.log(response.data);
+      setLoading(false)
       navigate("/home");
     });
 
     promise.catch((err) => {
       console.log(err.response.data.message);
+      setLoading(false)
       if (err.response.status === 422) {
         alert('Verifique se os dados foram preenchidos corretamente! (Valor precisa ser um número')
       }else {
@@ -61,7 +65,7 @@ export default function TransactionsPage() {
         onChange={handleChange}
         value={formData.description}
         required />
-        <Button type="submit">Salvar TRANSAÇÃO</Button>
+        <Button type="submit" disabled={loading}>Salvar TRANSAÇÃO</Button>
       </Form>
     </TransactionsContainer>
   )
