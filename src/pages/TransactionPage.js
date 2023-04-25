@@ -30,13 +30,13 @@ export default function TransactionsPage() {
 
     promise.then((response) => {
       console.log(response.data);
-      setLoading(false)
+      setLoading(false);
       navigate("/home");
     });
 
     promise.catch((err) => {
       console.log(err.response.data.message);
-      setLoading(false)
+      setLoading(false);
       if (err.response.status === 422) {
         alert('Verifique se os dados foram preenchidos corretamente! (Valor precisa ser um número')
       }else {
