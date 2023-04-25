@@ -33,6 +33,11 @@ export default function TransactionsPage() {
 
     promise.catch((err) => {
       console.log(err.response.data.message);
+      if (err.response.status === 422) {
+        alert('Verifique se os dados foram preenchidos corretamente! (Valor precisa ser um número')
+      }else {
+        alert('Ocorreu um erro inesperado! Tente novamente')
+      }
     });
 
   }

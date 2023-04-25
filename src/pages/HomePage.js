@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useState, useEffect, useContext } from "react";
-import { useLocation, useNavigate} from "react-router-dom";
+import {  useNavigate} from "react-router-dom";
 import api from "../services/api";
 import { UserContext } from "../contexts/UserContext";
 
@@ -10,18 +10,16 @@ export default function HomePage() {
 
   const {user} = useContext(UserContext)
   const [transactions, setTransactions] = useState([]);
-  const [moneyIn,setMoneyIn] = useState([])
+  const [name, setName] = useState(localStorage.name);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { name } = location.state || {}
-
 
   useEffect(loadTransactions, []);
 
   function loadTransactions(){
     const promise = api.getTransaction(user.token);
     promise.then((response) => {
-      console.log(response.data)
+      console.log(response.data);
+      setName(user.name)
       setTransactions(response.data);
     })
   };
@@ -38,24 +36,29 @@ export default function HomePage() {
   
   const result = positiveSum - negativeSum;
 
+  function logOut(){
+    localStorage.clear();
+    navigate("/")
+  }
+
   return (
     <HomeContainer>
       <Header>
         <h1>Olá, {name}</h1>
-        <BiExit />
+        <BiExit onClick={() => logOut()}/>
       </Header>
 
       <TransactionsContainer>
         <ul>
-        {transactions.map (transaction => (<>
-          <ListItemContainer key={transaction.id}>
+        {transactions.map(transaction => (
+          <ListItemContainer key={transaction._id}>
             <div>
               <span>{transaction.date}</span>
               <span>{transaction.description}</span>
             </div>
             <Value color={transaction.type}>{Number(transaction.value).toFixed(2)}</Value>
           </ListItemContainer>
-          </>
+          
               ))}
         </ul>
 

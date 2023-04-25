@@ -2,7 +2,6 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import styled from "styled-components"
-import axios from "axios";
 import MyWalletLogo from "../components/MyWalletLogo"
 import { UserContext } from "../contexts/UserContext";
 import api from "../services/api";
@@ -23,8 +22,9 @@ export default function SignInPage() {
     promise.then((response) => {
       console.log(response.data);
       const {idUser, token, name} = response.data;
-      setUser({idUser, token, name})
-      navigate("/home", {state:{name}});
+      setUser({idUser, token, name});
+      localStorage.setItem("user", JSON.stringify({idUser, token, name}))
+      navigate("/home");
     });
 
     promise.catch((error) => {
