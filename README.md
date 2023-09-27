@@ -15,13 +15,10 @@ Este projeto é uma carteira virtual onde você pode registrar suas transações
 ## Instalação
 
 ```bash
-$ git clone https://github.com/lucasnerism/mywallet-front
-$ cd mywallet-api
+$ git clone https://github.com/ysnsales/My-Wallet-front
+$ cd My-Wallet-front
 $ npm install
 ```
-
-## Crie uma API para acompanhar o front-end
-Acesse o back-end do [projeto](https://github.com/ysnsales/My-Wallet-back) e siga as instruções para iniciar a API.
 
 
 ## Configure as variáveis de ambiente (ENVs)
