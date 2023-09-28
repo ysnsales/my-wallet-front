@@ -15,8 +15,8 @@ Este projeto é uma carteira virtual onde você pode registrar suas transações
 ## Instalação
 
 ```bash
-$ git clone https://github.com/ysnsales/My-Wallet-front
-$ cd My-Wallet-front
+$ git clone https://github.com/ysnsales/my-wallet-front
+$ cd my-wallet-front
 $ npm install
 ```
 
