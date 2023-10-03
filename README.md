@@ -34,3 +34,14 @@ $ npm run build
 $ npm run start
 
 ```
+
+## Technologias
+
+<p align='rigth'>
+<img style='margin: 2px;' src='https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB' alt='React'/>
+<img style='margin: 2px;' src='https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white' alt='React Router'/>
+<img style='margin: 2px;' src='https://img.shields.io/badge/axios-800080?style=for-the-badge&logo=axios&logoColor=white' alt='Axios'/>
+<img style='margin: 2px;' src='https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white' alt='Styled-Components'/>
+</p>
+  
+<hr/>
